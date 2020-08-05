@@ -1,0 +1,24 @@
+SRC_DIR=$(SRC)
+OUTPUT_DIR=$(OUTPUT)
+
+OBJS      = crypt.o des.o md5.o
+SRCS      = $(SRC_DIR)/crypt.c $(SRC_DIR)/des.c $(SRC_DIR)/md5.c
+
+TARGET      = libcrypt.a
+
+$(TARGET):$(OBJS)
+	ar rcs $(TARGET) $^
+
+$(OBJS):$(SRCS)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $^
+
+
+install:$(TARGET)
+	cp $(TARGET) $(OUTPUT_DIR)
+	mkdir $(OUTPUT_DIR)/include
+	cp $(SRC_DIR)/crypt.h $(OUTPUT_DIR)/include/
+	cp $(SRC_DIR)/libcrypt.h $(OUTPUT_DIR)/include/
+
+clean:
+	rm -f *.o
+	rm -f $(LIBPATH)*
